@@ -89,21 +89,40 @@ namespace LeetCodeProblems.Easy
             return nums;
         }
 
-        public static int SolutionThree(int[] nums)
+        public static int SolutionThree(int[] nums) // Need to work on this, try to optimize this
         {
+
+            Array.Sort(nums);
+
+            Dictionary<int, int> duplicateFinder = new Dictionary<int, int>();
+
+            int lastNum = nums[^1];
 
             for (int i = 0; i < nums.Length; i++)
             {
-                if (nums[i] == nums[i + 1]) 
+            
+                if (!duplicateFinder.ContainsKey(nums[i]))
                 {
+                    duplicateFinder.Add(nums[i], 1);
+                }
+                else
+                {
+                    if(nums[i] == lastNum)
+                    {
+                        break;
+                    }
+            
+                    for (int j = i; j < nums.Length - 1; j++)
+                    {
+                        nums[j] = nums[j + 1];
+                    }
+            
+                    i--;
                     
                 }
-                
             }
 
-            nums = nums.DistinctBy(x => x).ToArray();
-
-            return nums.Length;
+        return duplicateFinder.Keys.Count;
         }
     }
 }
